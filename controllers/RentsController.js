@@ -1,66 +1,41 @@
 
-const { Film } = require('../models/index');
+const { Rent } = require('../models/index');
 
 // const jwt = require('jsonwebtoken');
 // const bcrypt = require('bcrypt');
 // let authConfig = require('../config/auth');
 
 //UserController object declaration
-const FilmsController = {};
+const RentsController = {};
 
-FilmsController.getFilm = (req, res) => {
-    //Esta funcion llamada findAll es una funcion de Sequelize
-    Film.findAll()
+RentsController.getRent = (req, res) => {
+    Rent.findAll()
     .then(data => {
-    
         res.send(data)
     });
 };
 
-FilmsController.searchFilm = async (req, res) => {
-    let modelo = req.params.model;
-    Film.findAll({
-    where : {tittle : modelo}
-    })
-    .then(resultadoSearch => {
-        if(resultadoSearch[0]?.dataValues.tittle != undefined){
-            res.send(resultadoSearch);
-        }else{
-            res.send("El titulo que busca no se encuentra disponible");
-        }
-    })
-    .catch(err => console.log(err));
+RentsController.postRent = async (req, res) => {
+    let userId = req.body.userId;
+    let filmId = req.body.filmId;
+    let price = req.body.price;
+    let return_date = req.body.return_date;
+    
+
+    Rent.create({
+        userId: userId,
+        filmId: filmId,
+        price: price,
+        return_date: return_date
+    }).then(rent => {
+        res.send(`Your rent have been added succesfully`);
+
+    }).catch((error) => {
+        res.send(error);
+    }); 
 };
 
-// UsersController.postUser = async (req, res) => {
-//     console.log("entro");
-//     let name = req.body.name;
-//     let dni = req.body.dni;
-//     let email = req.body.email;
-//     let password = bcrypt.hashSync(req.body.password, Number.parseInt(authConfig.rounds));
-//     let phone = req.body.phone;
-//     let age = req.body.age;
-//     let rol = req.body.rol;
-
-//     User.create({
-//         name: name,
-//         dni: dni,
-//         email: email,
-//         password: password,
-//         phone: phone,
-//         age: age,
-//         rol: rol
-//     }).then(user => {
-//         res.send(`${user.name}, you have been added succesfully`);
-
-//     }).catch((error) => {
-//         res.send(error);
-//     });
-    
-    
-// };
-
-// UsersController.loginUser = (req, res) => {
+// UsersController.postRent = (req, res) => {
 
 //     let documentacion = req.body.email;
 //     let clave = req.body.password;
@@ -96,4 +71,4 @@ FilmsController.searchFilm = async (req, res) => {
 // };
 
 //Export
-module.exports = FilmsController;
+module.exports = RentsController;
