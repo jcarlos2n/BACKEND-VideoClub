@@ -79,5 +79,28 @@ UsersController.loginUser = (req, res) => {
     }).catch(err => console.log(err));
 };
 
+UsersController.updateUser= async(req,res)=>{
+   
+    let name = req.body.name;
+    let password = bcrypt.hashSync(req.body.password, Number.parseInt(authConfig.rounds));
+    let phone = req.body.phone;
+    let age = req.body.age;
+    let rol = req.body.rol;
+    let id = req.params.id;
+    await User.update({
+        name: name,
+        password: password,
+        phone: phone,
+        age: age,
+        rol: rol
+    },
+    {
+        where:{
+            id:id
+        }
+    }).then(
+        res.send('You have updated your user info')
+    ).catch(err => console.log(err));
+};
 //Export
 module.exports = UsersController;
