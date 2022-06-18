@@ -11,7 +11,7 @@ const FilmsController = require('../controllers/FilmsController');
 //Endpoint-function links
 router.get('/', FilmsController.getFilm);
 router.get('/search/:model', FilmsController.searchFilm);
-// router.post('/login', UsersController.loginUser);
+router.delete('/delete/:id', FilmsController.deleteById);
 
 
 //Export

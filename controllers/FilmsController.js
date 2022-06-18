@@ -32,6 +32,20 @@ FilmsController.searchFilm = async (req, res) => {
     .catch(err => console.log(err));
 };
 
+FilmsController.deleteById = async (req, res) => {
+    let id = req.params.id;
+    try {
+        Film.destroy({
+            where: {},
+            truncate: false
+        })
+        .then(userDelete => {
+            res.send(`${userDelete} has been deleted succesfully`);
+        })
+    } catch (error) {
+        res.send(error);
+    }
+}
 // UsersController.postUser = async (req, res) => {
 //     console.log("entro");
 //     let name = req.body.name;
