@@ -12,7 +12,7 @@ const UsersController = require('../controllers/UsersController');
 router.get('/', auth, UsersController.getUser);
 router.post('/adduser', UsersController.postUser);
 router.post('/login', UsersController.loginUser);
-router.put('/:id', UsersController.updateUser);
+router.put('/:id',auth, UsersController.updateUser);
 
 
 //Export
