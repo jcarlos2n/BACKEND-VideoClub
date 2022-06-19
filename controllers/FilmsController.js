@@ -32,11 +32,11 @@ FilmsController.deleteById = async (req, res) => {
     let id = req.params.id;
     try {
         Film.destroy({
-            where: {},
+            where: {id: id},
             truncate: false
         })
             .then(userDelete => {
-                res.send(`${userDelete} has been deleted succesfully`);
+                res.send(`This film has been deleted succesfully`);
             })
     } catch (error) {
         res.send(error);

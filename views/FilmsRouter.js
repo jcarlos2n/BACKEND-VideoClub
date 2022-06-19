@@ -12,7 +12,7 @@ const isAdmin = require('../middlewares/isAdmin');
 //Endpoint-function links
 router.get('/', FilmsController.getFilm);
 router.get('/search/:model', FilmsController.searchFilm);
-router.delete('/delete/:id', FilmsController.deleteById);
+router.delete('/delete/:id',isAdmin, FilmsController.deleteById);
 router.post('/postfilm', isAdmin, FilmsController.postFilm);
 
 

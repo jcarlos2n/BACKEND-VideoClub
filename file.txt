@@ -1,9 +1,0 @@
-Alta de usuario  (post)                                 OK
-Obtener datos de perfil de usuario (jwt) (post/get)     OK
-Login de usuario (post)                                 OK
-Modificar perfil de usuario (jwt) (put)                 OK
-Consulta de todas las peliculas (get)                   OK
-Buscar por titulo (get)                                 OK
-Generar pedido (jwt) (post)                             OK
-Muestra todos los pedidos (admin) (get)                 OK
-
