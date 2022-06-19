@@ -79,13 +79,14 @@ UsersController.loginUser = (req, res) => {
                 let token = jwt.sign({ user: usuarioEncontrado }, authConfig.secret, {
                     expiresIn: authConfig.expires
                 });
-
-                console.log(token);
-                
                 let loginOKmessage = `Welcome again ${usuarioEncontrado.name}`
                 res.json({
                     loginOKmessage,
-                    user: usuarioEncontrado,
+                    user: {
+                        name : usuarioEncontrado.name,
+                        email : usuarioEncontrado.email,
+                        age : usuarioEncontrado.age
+                    },
                     token: token
                 })
             };
