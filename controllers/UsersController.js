@@ -17,7 +17,6 @@ UsersController.getUser = (req, res) => {
 };
 
 UsersController.postUser = async (req, res) => {
-    console.log("entro");
     let name = req.body.name;
     let dni = req.body.dni;
     let email = req.body.email;
@@ -26,20 +25,25 @@ UsersController.postUser = async (req, res) => {
     let age = req.body.age;
     let rol = req.body.rol;
 
-    User.create({
-        name: name,
-        dni: dni,
-        email: email,
-        password: password,
-        phone: phone,
-        age: age,
-        rol: rol
-    }).then(user => {
-        res.send(`${user.name}, you have been added succesfully`);
-
-    }).catch((error) => {
-        res.send(error);
-    });
+    if (name === "" || dni === "" || email === "" || password === "" || phone === "" || age === "") {
+        res.send("Rellena los campos que faltan");
+    }else {
+        User.create({
+            name: name,
+            dni: dni,
+            email: email,
+            password: password,
+            phone: phone,
+            age: age,
+            rol: rol
+        }).then(user => {
+            res.send(`${user.name}, you have been added succesfully`);
+    
+        }).catch((error) => {
+            res.send(error);
+        });
+    }
+    
     
     
 };

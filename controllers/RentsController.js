@@ -1,5 +1,6 @@
 
 const { Rent } = require('../models/index');
+const UsersController = require('./UsersController');
 
 // const jwt = require('jsonwebtoken');
 // const bcrypt = require('bcrypt');
@@ -20,9 +21,19 @@ RentsController.postRent = async (req, res) => {
     let filmId = req.body.filmId;
     let price = req.body.price;
     let return_date = req.body.return_date;
-    
 
-    Rent.create({
+    let age18 = `SELECT users.age AS Edad FROM users WHERE id LIKE ${userId}`;
+    let result18 = await Rent.sequelize.query(age18, {
+        type : Rent.sequelize.QueryTypes.SELECT
+    });
+    let adultF = `SELECT films.adult FROM films where id LIKE ${filmId}`;
+    let adult18 = await Rent.sequelize.query(adultF, {
+        type : Rent.sequelize.QueryTypes.SELECT
+    });
+    if (adult18[0].adult != 0 && result18[0].Edad < 18) {
+        res.send("No tienes edad suficiente para ver esta pelicula");
+    }else{
+        Rent.create({
         userId: userId,
         filmId: filmId,
         price: price,
@@ -33,42 +44,8 @@ RentsController.postRent = async (req, res) => {
     }).catch((error) => {
         res.send(error);
     }); 
+    }
 };
-
-// UsersController.postRent = (req, res) => {
-
-//     let documentacion = req.body.email;
-//     let clave = req.body.password;
-
-//     User.findOne({
-//         where : {email : documentacion}
-
-//     }).then(usuarioEncontrado => {
-
-//         if(!usuarioEncontrado){
-//             res.send("Usuario o password incorrectos");
-//         } else {
-//             if( bcrypt.compareSync(clave, usuarioEncontrado.password)){
-//                 //Ahora ya si hemos comprobado que el usuario existe (email es correcto) y el password SI corresponde a ese usuario
-
-//                 //generamos el token, pasándole como primer argumento el usuarioEncontrado, segundo argumento es la frase secreta.
-//                 let token = jwt.sign({ user: usuarioEncontrado }, authConfig.secret, {
-//                     expiresIn: authConfig.expires
-//                 });
-
-//                 console.log(token);
-                
-//                 let loginOKmessage = `Welcome again ${usuarioEncontrado.name}`
-//                 res.json({
-//                     loginOKmessage,
-//                     user: usuarioEncontrado,
-//                     token: token
-//                 })
-//             };
-//         };
-
-//     }).catch(err => console.log(err));
-// };
 
 //Export
 module.exports = RentsController;
