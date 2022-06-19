@@ -11,25 +11,25 @@ const FilmsController = {};
 FilmsController.getFilm = (req, res) => {
     //Esta funcion llamada findAll es una funcion de Sequelize
     Film.findAll()
-    .then(data => {
-    
-        res.send(data)
-    });
+        .then(data => {
+
+            res.send(data)
+        });
 };
 
 FilmsController.searchFilm = async (req, res) => {
     let modelo = req.params.model;
     Film.findAll({
-    where : {tittle : modelo}
+        where: { tittle: modelo }
     })
-    .then(resultadoSearch => {
-        if(resultadoSearch[0]?.dataValues.tittle != undefined){
-            res.send(resultadoSearch);
-        }else{
-            res.send("El titulo que busca no se encuentra disponible");
-        }
-    })
-    .catch(err => console.log(err));
+        .then(resultadoSearch => {
+            if (resultadoSearch[0]?.dataValues.tittle != undefined) {
+                res.send(resultadoSearch);
+            } else {
+                res.send("El titulo que busca no se encuentra disponible");
+            }
+        })
+        .catch(err => console.log(err));
 };
 
 FilmsController.deleteById = async (req, res) => {
@@ -39,75 +39,43 @@ FilmsController.deleteById = async (req, res) => {
             where: {},
             truncate: false
         })
-        .then(userDelete => {
-            res.send(`${userDelete} has been deleted succesfully`);
-        })
+            .then(userDelete => {
+                res.send(`${userDelete} has been deleted succesfully`);
+            })
     } catch (error) {
         res.send(error);
     }
-}
-// UsersController.postUser = async (req, res) => {
-//     console.log("entro");
-//     let name = req.body.name;
-//     let dni = req.body.dni;
-//     let email = req.body.email;
-//     let password = bcrypt.hashSync(req.body.password, Number.parseInt(authConfig.rounds));
-//     let phone = req.body.phone;
-//     let age = req.body.age;
-//     let rol = req.body.rol;
+};
+FilmsController.postFilm = async (req, res) => {
 
-//     User.create({
-//         name: name,
-//         dni: dni,
-//         email: email,
-//         password: password,
-//         phone: phone,
-//         age: age,
-//         rol: rol
-//     }).then(user => {
-//         res.send(`${user.name}, you have been added succesfully`);
+    let tittle = req.body.tittle;
+    let duration = req.body.duration;
+    let adult = req.body.adult;
+    let genre = req.body.genre;
+    let sinopsis = req.body.sinopsis;
+    let director = req.body.director;
+    let actors = req.body.actors;
+    let release_date = req.body.release_date;
 
-//     }).catch((error) => {
-//         res.send(error);
-//     });
-    
-    
-// };
 
-// UsersController.loginUser = (req, res) => {
+    Film.create({
+        tittle: tittle,
+        duration: duration,
+        adult: adult,
+        genre: genre,
+        sinopsis: sinopsis,
+        director: director,
+        actors: actors,
+        release_date: release_date
+    }).then(film => {
+        res.send(`${film.tittle}, this film have been added succesfully`);
 
-//     let documentacion = req.body.email;
-//     let clave = req.body.password;
+    }).catch((error) => {
+        res.send(error);
+    });
 
-//     User.findOne({
-//         where : {email : documentacion}
 
-//     }).then(usuarioEncontrado => {
-
-//         if(!usuarioEncontrado){
-//             res.send("Usuario o password incorrectos");
-//         } else {
-//             if( bcrypt.compareSync(clave, usuarioEncontrado.password)){
-//                 //Ahora ya si hemos comprobado que el usuario existe (email es correcto) y el password SI corresponde a ese usuario
-
-//                 //generamos el token, pasándole como primer argumento el usuarioEncontrado, segundo argumento es la frase secreta.
-//                 let token = jwt.sign({ user: usuarioEncontrado }, authConfig.secret, {
-//                     expiresIn: authConfig.expires
-//                 });
-
-//                 console.log(token);
-                
-//                 let loginOKmessage = `Welcome again ${usuarioEncontrado.name}`
-//                 res.json({
-//                     loginOKmessage,
-//                     user: usuarioEncontrado,
-//                     token: token
-//                 })
-//             };
-//         };
-
-//     }).catch(err => console.log(err));
-// };
+};
 
 //Export
 module.exports = FilmsController;
