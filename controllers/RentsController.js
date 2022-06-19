@@ -1,12 +1,6 @@
 
 const { Rent } = require('../models/index');
-const UsersController = require('./UsersController');
 
-// const jwt = require('jsonwebtoken');
-// const bcrypt = require('bcrypt');
-// let authConfig = require('../config/auth');
-
-//UserController object declaration
 const RentsController = {};
 
 RentsController.getRent = (req, res) => {

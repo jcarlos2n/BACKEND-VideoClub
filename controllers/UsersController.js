@@ -9,11 +9,22 @@ const UsersController = {};
 
 UsersController.getUser = (req, res) => {
     //Esta funcion llamada findAll es una funcion de Sequelize
-    User.findAll()
-    .then(data => {
+    if (User.rol == "admin") {
+        User.findAll()
+        .then(data => {
     
         res.send(data)
     });
+    }else{
+        let doc = req.body.dni;
+        User.findOne({
+            where: {dni: doc},
+        })
+        .then(data => {
+            res.send(data)
+        }) 
+    }
+    
 };
 
 UsersController.postUser = async (req, res) => {
